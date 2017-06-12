@@ -1,5 +1,5 @@
 int potPen = A0;
-int readValue;
+int sensorValue;
 
 void setup() {
   pinMode(potPen, INPUT);
@@ -7,7 +7,11 @@ void setup() {
 }
 
 void loop() {
-  readValue = analogRead(potPen);
-  Serial.println(readValue);
+  sensorValue = analogRead(potPen);
+  Serial.println(toVoltage(sensorValue));
   delay(250);
+}
+
+double toVoltage(int value) {
+  return value * (5.0 / 1023.0);
 }
