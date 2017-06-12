@@ -8,7 +8,7 @@ import org.influxdb.dto.Point;
 
 public class InfluxDBConnection {
 
-    private static InfluxDBConnection instance = null;
+    private static InfluxDBConnection instance;
 
     protected final InfluxDB influxDB;
     protected final String dbName = "FruitVoltageData";
@@ -18,7 +18,7 @@ public class InfluxDBConnection {
         int flushEveryPointsCount = 2000;
         int flushEveryMS = 1000;
         influxDB.enableBatch(flushEveryPointsCount, flushEveryMS, TimeUnit.MILLISECONDS);
-
+        System.out.println(influxDB.ping().getResponseTime());
     }
 
     public void writePoint(Point point) {
@@ -29,6 +29,7 @@ public class InfluxDBConnection {
 
     public Point getPoint(double voltage) {
         Point.Builder telemetryPoints = Point.measurement("Fruit Voltage")
+                .tag()
                 .time(System.currentTimeMillis(), TimeUnit.MILLISECONDS)
                 .addField("voltage", voltage);
         return telemetryPoints.build();

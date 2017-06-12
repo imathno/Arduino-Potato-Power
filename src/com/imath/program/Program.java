@@ -16,7 +16,7 @@ public class Program implements SerialPortEventListener {
 
     private final int DATA_RATE = 9600;
     private final int TIME_OUT = 1000;
-    private static final String PORT_NAME = "COM3";
+    private static final String PORT_NAME = "COM7";
 
     private InfluxDBConnection influxConnection = null;
     private boolean displayData;
@@ -50,10 +50,13 @@ public class Program implements SerialPortEventListener {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        if (displayData) {
+            setUpInflux();
+        }
     }
 
     private void setUpInflux() {
-        influxConnection.getInstance();
+        influxConnection = influxConnection.getInstance();
     }
 
     private void setUpSerialPort() throws UnsupportedCommOperationException, TooManyListenersException {
