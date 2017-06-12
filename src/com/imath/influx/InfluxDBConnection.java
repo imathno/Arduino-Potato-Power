@@ -18,9 +18,9 @@ public class InfluxDBConnection {
         int flushEveryPointsCount = 2000;
         int flushEveryMS = 1000;
         influxDB.enableBatch(flushEveryPointsCount, flushEveryMS, TimeUnit.MILLISECONDS);
+
         System.out.println(influxDB.ping().getResponseTime());
     }
-
     public void writePoint(Point point) {
         if(influxDB != null) {
             influxDB.write(dbName, "autogen", point);
@@ -29,13 +29,12 @@ public class InfluxDBConnection {
 
     public Point getPoint(double voltage) {
         Point.Builder telemetryPoints = Point.measurement("Fruit Voltage")
-                .tag()
                 .time(System.currentTimeMillis(), TimeUnit.MILLISECONDS)
                 .addField("voltage", voltage);
         return telemetryPoints.build();
     }
 
-    public synchronized InfluxDBConnection getInstance() {
+    public static synchronized InfluxDBConnection getInstance() {
         if (instance == null) {
             instance = new InfluxDBConnection();
         }

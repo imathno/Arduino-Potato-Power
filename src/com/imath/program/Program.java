@@ -90,6 +90,7 @@ public class Program implements SerialPortEventListener {
 
     private void updateGraph(double value) {
         System.out.println(value);
+        System.out.println(influxConnection);
         if (influxConnection != null) {
             influxConnection.writePoint(influxConnection.getPoint(value));
         }
