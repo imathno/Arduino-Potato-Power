@@ -9,5 +9,4 @@ public class Main {
         Thread programThread = new Thread(program::initialize);
         programThread.start();
     }
-
 }
