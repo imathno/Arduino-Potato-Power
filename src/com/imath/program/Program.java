@@ -1,9 +1,9 @@
 package com.imath.program;
 
+import com.imath.gui.VoltGui;
 import com.imath.influx.InfluxDBConnection;
 import gnu.io.*;
 
-import java.io.InputStream;
 import java.util.Enumeration;
 import java.util.Scanner;
 import java.util.TooManyListenersException;
@@ -16,15 +16,18 @@ public class Program implements SerialPortEventListener {
 
     private final int DATA_RATE = 9600;
     private final int TIME_OUT = 1000;
-    private static final String PORT_NAME = "COM3";
+    private static final String PORT_NAME = "COM7";
 
     private InfluxDBConnection influxConnection = null;
-    private boolean displayData;
+    private boolean displayGraph;
+    private boolean displayGui;
+    private VoltGui voltGui;
 
     private boolean initialized;
 
-    public Program(boolean displayData) {
-        this.displayData = displayData;
+    public Program(boolean displayGraph, boolean displayGui) {
+        this.displayGraph = displayGraph;
+        this.displayGui = displayGui;
         this.initialized = false;
     }
 
@@ -50,10 +53,20 @@ public class Program implements SerialPortEventListener {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        if (displayGraph) {
+            setUpInflux();
+        }
+        if (displayGui) {
+            setUpGui();
+        }
     }
 
     private void setUpInflux() {
-        influxConnection.getInstance();
+        influxConnection = influxConnection.getInstance();
+    }
+
+    private void setUpGui() {
+        voltGui = VoltGui.getInstance();
     }
 
     private void setUpSerialPort() throws UnsupportedCommOperationException, TooManyListenersException {
@@ -76,7 +89,7 @@ public class Program implements SerialPortEventListener {
                 this.dataInput = new Scanner(serialPort.getInputStream());
                 while (dataInput.hasNextLine()) {
                     double voltage = Double.parseDouble(dataInput.nextLine());
-                    updateGraph(voltage);
+                    updateData(voltage);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -85,10 +98,13 @@ public class Program implements SerialPortEventListener {
         dataInput.close();
     }
 
-    private void updateGraph(double value) {
-        System.out.println(value);
+    private void updateData(double value) {
+        System.out.println(value + " Volts");
         if (influxConnection != null) {
             influxConnection.writePoint(influxConnection.getPoint(value));
+        }
+        if (voltGui != null) {
+            voltGui.updateTextBox(value + " Volts");
         }
     }
 
