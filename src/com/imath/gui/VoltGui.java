@@ -13,17 +13,20 @@ public class VoltGui extends JFrame {
     private JTextArea textArea;
 
     private VoltGui() {
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         frame = new JFrame(GUI_TITLE);
         textArea = new JTextArea();
 
-        frame.setLayout(new BorderLayout());
+        frame.setResizable(true);
+        frame.setLocationRelativeTo(null);
         frame.setSize(600, 600);
 
         frame.getContentPane().add(BorderLayout.CENTER, textArea);
 
         textArea.setEditable(false);
-        textArea.setText("Configuring Text Box");
+        Font font = new Font("Courier New", Font.BOLD, 24);
+        textArea.setFont(font);
+
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         frame.pack();
         frame.setVisible(true);
