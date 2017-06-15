@@ -1,4 +1,4 @@
-# Arduino-Potato-Power
+# Arduino-Fruit-Current-Reader
 
 A project for my chemistry class that reads fruit voltage via an arudino uno.
 
