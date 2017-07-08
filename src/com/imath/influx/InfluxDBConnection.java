@@ -10,8 +10,8 @@ public class InfluxDBConnection {
 
     private static InfluxDBConnection instance;
 
-    protected final InfluxDB influxDB;
-    protected final String dbName = "FruitVoltageData";
+    private final InfluxDB influxDB;
+    private final String dbName = "FruitVoltageData";
 
     private InfluxDBConnection() {
         influxDB = InfluxDBFactory.connect("http://" + "127.0.0.1" + ":8086", "root", "root");

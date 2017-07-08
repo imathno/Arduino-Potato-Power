@@ -92,7 +92,9 @@ public class Program implements SerialPortEventListener {
                     updateData(voltage);
                 }
             } catch (Exception e) {
-                //Do Nothing
+                System.err.println("\n--------------------\n"
+                                    + e
+                                    + "\n--------------------\n");
             }
         }
         dataInput.close();
