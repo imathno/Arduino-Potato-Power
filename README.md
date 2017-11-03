@@ -1,6 +1,6 @@
 # Arduino-Fruit-Current-Reader
 
-A project for my chemistry class that reads fruit voltage via an arudino uno.
+A project for my chemistry class that reads fruit voltage via an Arduino Uno.
 
 ## Arduino Setup
 ```
